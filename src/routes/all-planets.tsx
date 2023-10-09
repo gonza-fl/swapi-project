@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Planets from '../components/planet-table';
 import { Planet } from '../interfaces/planet';
+import { Outlet } from 'react-router-dom';
 
 const AllPlanets: React.FC = () => {
   const [planets, setPlanets] = useState<Planet[]>([]);
@@ -17,12 +18,15 @@ const AllPlanets: React.FC = () => {
   }, []);
 
   return (
-    <Planets
-      planets={planets}
-      title='Planets'
-      isCreatingFavorite={isCreatingFavorite}
-      setIsCreatingFavorite={setIsCreatingFavorite}
-    />
+    <>
+      <Planets
+        planets={planets}
+        title='Planets'
+        isCreatingFavorite={isCreatingFavorite}
+        setIsCreatingFavorite={setIsCreatingFavorite}
+      />
+      <Outlet />
+    </>
   );
 };
 

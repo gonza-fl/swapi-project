@@ -14,10 +14,12 @@ export const router = createBrowserRouter([
       {
         path: 'planets',
         element: <AllPlanets />,
-      },
-      {
-        path: 'planets/:planetId',
-        element: <PlanetDetails />,
+        children: [
+          {
+            path: ':planetId',
+            element: <PlanetDetails />,
+          },
+        ],
       },
       {
         path: 'favorites',

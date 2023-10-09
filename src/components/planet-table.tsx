@@ -3,6 +3,7 @@ import { Planet } from '../interfaces/planet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { addFavoritePlanet, removeFavoritePlanet } from '../helpers';
+import { useNavigate } from 'react-router-dom';
 
 const Table = styled.table`
   width: 100%;
@@ -26,6 +27,13 @@ const Button = styled.button`
   padding: 5px;
 `;
 
+const Tr = styled.tr`
+  &:hover {
+    cursor: pointer;
+    background-color: gray;
+  }
+`;
+
 interface Props {
   planets: Planet[];
   remove?: (name: string) => void;
@@ -41,7 +49,15 @@ const Planets = ({
   isCreatingFavorite,
   setIsCreatingFavorite,
 }: Props) => {
-  return (
+  const navigate = useNavigate();
+
+  const handleRowClick = (url: string) => {
+    const arrSplit = url?.split('/');
+    const planetId = arrSplit[arrSplit?.length - 2];
+    navigate(`/planets/${planetId}`);
+  };
+
+  return planets.length ? (
     <div>
       <h2>{title}</h2>
       <Table>
@@ -56,11 +72,12 @@ const Planets = ({
         </thead>
         <tbody>
           {planets?.map((planet, index) => (
-            <tr key={index}>
+            <Tr key={index} onClick={() => handleRowClick(planet.url || '')}>
               <Td>{planet.name}</Td>
               <Td>{planet.climate}</Td>
               <Td>{planet.diameter}</Td>
               <Td>{planet.population}</Td>
+              {/* </Link> */}
               <Td>
                 {((): boolean => {
                   let bool: boolean = false;
@@ -97,11 +114,13 @@ const Planets = ({
                   </button>
                 )}
               </Td>
-            </tr>
+            </Tr>
           ))}
         </tbody>
       </Table>
     </div>
+  ) : (
+    <p>Loading...</p>
   );
 };
 

@@ -5,4 +5,5 @@ export interface Planet {
   population: string;
   favorite: boolean;
   gravity?: string;
+  url?: string;
 }
